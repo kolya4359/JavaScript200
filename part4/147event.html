@@ -1,0 +1,46 @@
+<!-- 이벤트 흐름 이해하기 -->
+
+<!--
+    트리 형태로 구성되는 DOM은 이벤트가 발생하면, 이벤트가 부모에서 자식으로 자식에서 부모로 흘러간다.
+    이렇게 이벤트가 전파되는 방향에 따라 이벤트 버블링(Bubbling)과 이벤트 캡처링(Capturing)으로 구분한다.
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>이벤트 플로우 예제</title>
+    <link rel="stylesheet" href="./event-flow.css" />
+  </head>
+  <body>
+    <h1>DOM 이벤트 플로우</h1>
+    <div id="element1" class="box">
+      <div id="element2" class="box2">버블링</div>
+    </div>
+    <div id="element3" class="box">
+      <div id="element4" class="box2">캡처링</div>
+    </div>
+    <script>
+      element1.addEventListener("click", (e) => console.log("요소1 클릭"));
+      element2.addEventListener("click", (e) => console.log("요소2 클릭"));
+
+      element3.addEventListener(
+        "click",
+        (e) => console.log("요소3 클릭"),
+        true
+      );
+      element4.addEventListener("click", (e) => console.log("요소4 클릭"));
+    </script>
+  </body>
+</html>
+
+<!--
+    이벤트 흐름은 3단계로 구성된다. 첫 번째는 캡처링 단계이고 두 번째는 타겟팅 단계이고 마지막으로 버블링 단계이다.
+    element2 DIV 요소를 클릭하면 먼저 최상위 노드 window부터 시작하여 클릭한 대상인 element2 DIV 요소까지 이벤트가 내려온다.
+    그리고 이벤트 객체의 target에 도착하여 해당 이벤트 리스너를 호출하는 타겟팅 단계에 진입한다. 그 후 다시 최상위 노드로 올라가는 버블링 단계를 거친다.
+
+    element1 DIV 요소에 이벤트 리스너를 등록하면 element2 DIV 요소를 클릭했어도 element1 DIV 요소는 부모 노드이기 때문에 캡쳐링 단계와
+    버블링 단계에서의 모두 거쳐가게 된다.
+    그래서 addEventListener 메소드에는 마지막 인자로 캡처링 단계의 호출 여부를 불린값으로 전달 할 수 있다. 기본적으로는
+    부모 노드들은 버블링 단계에서 호출된다. 즉 타겟의 이벤트 리스너가 먼저 호출되고 나중에 부모 노드들의 이벤트 리스너들이 호출된다.
+-->

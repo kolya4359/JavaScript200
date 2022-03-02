@@ -1,0 +1,57 @@
+<!-- 문서 객체 모델 이해하기-->
+
+<!--
+문서 객체 모델(Document Object Model)은 HTML과 XML을 위한 프로그래밍 인터페이스이다.
+인터페이스는 해당 타입에 어떤 속성과 메소드들이 존재해야 하는지 기술만 하고 실제 구현은 각 구현체에서 다르게
+구현 할 수 있게 약속을 정의해놓은거라고 생각하면 된다. 문서 객체 모델은 인터페이스이고, 브라우저에서 해당 인터페이스를 구현한다.
+이렇게 인터페이스를 통해 우리는 실제 어떻게 구현됐는지 몰라도 원하는 기능을 사용할 수 있다.
+
+그리고 문서 객체 모델은 자바스크립트를 통해 사용할 수 있다. 그래서 우리는 자바스크립트에서 DOM을 통해 문서의 구조, 스타일 그리고 내용을 변경할 수 있다.
+HTML 문서를 브라우저가 읽으면 그 문서에 해당하는 DOM이 만들어진다. 그리고 DOM은 객체 형태로 표현된다.
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>DOM 이해하기</title>
+  </head>
+  <!--
+      마지막에 <script>태그를 작성하는 이유는 앞의 태그들을 브라우저가 먼저 읽어야 자바스크립트 코드가 해석되기 전에 DOM으로 만들어져서
+          <script>태그의 자바스크립트 코드에서 해당 DOM에 접근할 수 있기 때문이다.
+  -->
+  <body>
+    <div id="div1">hello DOM</div>
+    <ul>
+      <li>list item1</li>
+      <li>list item2</li>
+    </ul>
+    <script>
+      const div1El = document.getElementById("div1");
+      console.log(div1El.innerHTML);
+
+      console.log(div1El.nodeType);
+      console.log(div1El.nodeType === Node.ELEMENT_NODE);
+
+      console.log(div1El.constructor);
+      console.log(div1El instanceof HTMLDivElement);
+      console.log(div1El instanceof HTMLElement);
+      console.log(div1El instanceof Element);
+      console.log(div1El instanceof Node);
+      console.log(Element.prototype);
+      console.log(div1El.tagName);
+
+      const div1El2 = document.querySelector("#div1");
+      console.log(div1El2.innerHTML);
+
+      const liEls = document.querySelectorAll("ul li");
+      console.log(liEls.item(0).innerHTML);
+      console.log(liEls.item(1).textContent);
+    </script>
+  </body>
+</html>
+<!--
+    getElementById는 아이디를 인자로 전달받아 해당 아이디의 요소를 문서에서 찾아 반환한다.
+    이 때 <div> 태그를 자바스크립트에서 DOM 객체로 표현되고 이 객체가 노드(Node)이다.
+    태그를 포함한 문서에 작성되는 모든 것들은 노드가 되고 이러한 노드는 여러 종류가 있다.
+-->
