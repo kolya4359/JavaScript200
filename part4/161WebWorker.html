@@ -1,0 +1,47 @@
+<!-- 웹 워커로 백그라운드 코드 실행하기 -->
+
+<!--
+    웹 워커는 무거운 작업의 스크립트를 백그라운드에서 동작할 수 있게 한다.
+    작업을 수행하는 최소한의 단위를 스레드라고 하는데 사용자의 입력이나 화면의 렌더링 등을 다루는 메인 스레드를 방해하지 않고 별도의
+    스레드에서 스크립트를 실행하게 하는 것이 웹 워커이다.
+-->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>웹워커 예제</title>
+  </head>
+  <body>
+    <div>
+      <input type="number" id="number" />
+      <button id="start-btn">피보나치수열 계산시작</button>
+    </div>
+    <div id="result"></div>
+    <script>
+      const result = document.getElementById("result");
+      let isCalculation = false;
+      if (window.Worker) {
+        const fibonacciWorker = new Worker("fibonacci.js");
+        document.getElementById("start-btn").addEventListener("click", (e) => {
+          if (isCalculation) {
+            return;
+          }
+          const value = document.getElementById("number").value;
+          fibonacciWorker.postMessage({ num: value });
+          result.innerHTML = "계산 중...";
+          isCalculation = true;
+        });
+        fibonacciWorker.onmessage = function (e) {
+          result.innerHTML = e.data;
+          isCalculation = false;
+        };
+        fibonacciWorker.onerror = function (error) {
+          console.error("에러 발생", error.message);
+          result.innerHTML = error.message;
+          isCalculation = false;
+        };
+      }
+    </script>
+  </body>
+</html>
