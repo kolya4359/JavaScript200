@@ -1,23 +1,31 @@
 "use strict";
 
 const Baseball = require("./baseball.js");
+// index.js 파일에 게임 비즈니스 로직이 대부분 존재하지만, 이는 처리 절차와 조건 및 예외 처리에 관한 내용이다.
+// 그 외에 베이스볼 게임 연산이나 이력, 게임 결과 등 게임과 관련된 정보의 객체화는 baseball.js의 baseball 클래스에 작성되어 있다.
 const model = require("../models");
 
 const getGames = () => {
   const games = {};
   const data = model.readFile();
+  // model.readFile() 을 통해 파일에 입력되어 있는 모든 데이터를 읽어 가져온다.
 
   for (let key in data) {
     if (!data.hasOwnProperty(key)) continue;
     games[key] = Baseball.toObject(data[key]);
   }
+  /**
+   * for 반복문으로 순회하면서 Baseball.toObject 함수를 호출하고, 각 요소를 Baseball 생성자로 생성한다.
+   * 이를 통해 파일의 정제되지 않은 데이터를 정보화하고, Baseball 클래스의 메소드를 활용할 수 있다. 값을 변환한 후에는 data에 정의된
+   * 동일 키 이름으로 games 객체 속성을 정의한다.
+   */
 
   return games;
 };
 
 exports.getGames = () => {
   return Object.values(getGames());
-};
+}; // 모든 게임 정보를 가져와 리스트로 반환한다.
 
 const getGame = (exports.getGame = (id) => {
   if (!id) throw "id를 입력하세요.";

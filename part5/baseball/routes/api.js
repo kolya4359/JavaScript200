@@ -18,6 +18,7 @@ const checkError = (err) => {
   return err.code ? err : createError(500, err);
 };
 
+// async로 비동기 작업을 제어하기 때문에 try-catch 예외 처리 구문을 함께 작성.
 async function getList(req, res, next) {
   try {
     res.send(services.getGames());

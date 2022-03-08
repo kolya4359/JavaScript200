@@ -2,7 +2,7 @@
 // 엄격모드(Strict Mode) 선언
 // 자바스크립트 문법을 런타임에서 검사하고, 문제가 되는 코드가 있는 경우 에러를 반환.
 
-const shortid = require("shrotid");
+const shortid = require("shortid");
 // A-Z, a-z, 0-9, -_를 조합하여 7자리의 비순차적(Non-Sequential)이고 URL에 친숙한(Url-Friendly) 랜덤 고유값을 생성.
 const { getRandomInt } = require("./util.js");
 const answerSymbol = Symbol("answer");
@@ -12,7 +12,7 @@ const answerSymbol = Symbol("answer");
  * 심볼 자료형을 활용하여 게임 정답을 은닉하여 저장한다.
  */
 
-class Baseabll {
+class Baseball {
   constructor(
     id = shortid.generate(),
     history = [],
